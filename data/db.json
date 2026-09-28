@@ -1,0 +1,168 @@
+{
+  "users": [
+    {
+      "id": "usr-admin",
+      "name": "Veeraa Admin",
+      "email": "admin@veeraa.com",
+      "role": "admin",
+      "password_hash": "f3751c4dd0865fe47e7c0fe9c1d263e4$f3c04636beb035dbd6fcf232eb66c53e2913671b3ca2591f4995a4b5c21104ef",
+      "created_at": "2026-09-22T07:10:18.016Z"
+    },
+    {
+      "id": "usr-customer",
+      "name": "Priya Customer",
+      "email": "customer@veeraa.com",
+      "role": "customer",
+      "password_hash": "87512d21ca2eb1e8daf7c797678466d1$583367cfa5a1bc5967449ae565a028b5385f91334961c56acd82e92ffd06eec0",
+      "created_at": "2026-09-22T07:10:18.080Z"
+    }
+  ],
+  "sessions": [
+    {
+      "token": "zQ9lAQ5NIyLeI4yEQm3CZChQBomwRX_dXyT87mIrdCo",
+      "user_id": "usr-admin",
+      "created_at": "2026-09-22T12:44:07.870Z",
+      "expires_at": "2026-10-22T12:44:07.870Z"
+    },
+    {
+      "token": "WhFQl26C_c5dCaNdpzKf8eux6Yff4ONh0o6T7Zk6j_M",
+      "user_id": "usr-admin",
+      "created_at": "2026-09-22T12:52:40.219Z",
+      "expires_at": "2026-10-22T12:52:40.219Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-aura-gold-hoops",
+      "name": "Aura Gold Hoops",
+      "category": "earrings",
+      "metal": "gold",
+      "price": 899,
+      "image_url": "https://static.prod-images.emergentagent.com/jobs/c0d76ea6-ce25-4ebe-8c53-680e184e132e/images/77dce56680815c6255e823df74c302877ae7e40715880577d667f6e9afc6c39b.jpeg",
+      "description": "Featherlight 18k gold plated hoops that sit close to the ear. Sweat proof and tarnish resistant, they stay bright through workdays, workouts and long evenings.",
+      "images": [],
+      "sweat_proof": true,
+      "daily_wear": true,
+      "anti_tarnish": true,
+      "stock": 25,
+      "is_new": true,
+      "created_at": "2026-09-22T07:00:17.951Z"
+    },
+    {
+      "id": "prod-mira-silver-drops",
+      "name": "Mira Silver Drops",
+      "category": "earrings",
+      "metal": "silver",
+      "price": 1299,
+      "image_url": "https://static.prod-images.emergentagent.com/jobs/c0d76ea6-ce25-4ebe-8c53-680e184e132e/images/d4dade1158f49bad4477226b5f980a73290b3ebe069ab8e36ba21ac9cfca4206.jpeg",
+      "description": "925 sterling silver thread drops with a single bezel stone. Gentle on sensitive ears and light enough to forget you are wearing them.",
+      "images": [],
+      "sweat_proof": true,
+      "daily_wear": true,
+      "anti_tarnish": true,
+      "stock": 25,
+      "is_new": true,
+      "created_at": "2026-09-22T06:50:17.952Z"
+    },
+    {
+      "id": "prod-rope-gold-chain",
+      "name": "Rope Gold Chain",
+      "category": "chains",
+      "metal": "gold",
+      "price": 1599,
+      "image_url": "https://static.prod-images.emergentagent.com/jobs/c0d76ea6-ce25-4ebe-8c53-680e184e132e/images/713f6ff63d6ad4454c6818ab3274c52e82603f47638b308fe217ef287738a190.jpeg",
+      "description": "A finely twisted rope chain in 18k gold plating. Layer it or wear it alone - the anti-tarnish finish keeps its warm glow through daily wear.",
+      "images": [],
+      "sweat_proof": true,
+      "daily_wear": true,
+      "anti_tarnish": true,
+      "stock": 25,
+      "is_new": true,
+      "created_at": "2026-09-22T06:40:17.952Z"
+    },
+    {
+      "id": "prod-luna-silver-box",
+      "name": "Luna Silver Box Chain",
+      "category": "chains",
+      "metal": "silver",
+      "price": 1449,
+      "image_url": "https://static.prod-images.emergentagent.com/jobs/c0d76ea6-ce25-4ebe-8c53-680e184e132e/images/ea0e98202e4491cb84feffebbb85ef69fffef974f6de09a89e2882ec3b887f7c.jpeg",
+      "description": "Crisp 925 silver box chain with a secure lobster clasp. Sweat proof and water resistant, made for everyday elegance.",
+      "images": [],
+      "sweat_proof": true,
+      "daily_wear": true,
+      "anti_tarnish": true,
+      "stock": 25,
+      "is_new": false,
+      "created_at": "2026-09-22T06:30:17.952Z"
+    },
+    {
+      "id": "prod-stack-gold-ring",
+      "name": "Stack Gold Ring Set",
+      "category": "rings",
+      "metal": "gold",
+      "price": 1099,
+      "image_url": "https://static.prod-images.emergentagent.com/jobs/c0d76ea6-ce25-4ebe-8c53-680e184e132e/images/0a805a0ab5d74534e9bfb6d7a82ce9f6a61978cef48b5b11957a634789615312.jpeg",
+      "description": "A set of slim gold plated stacking bands with pave detail. Mix and match, or wear the full stack for a quiet statement.",
+      "images": [],
+      "sweat_proof": true,
+      "daily_wear": true,
+      "anti_tarnish": true,
+      "stock": 25,
+      "is_new": true,
+      "created_at": "2026-09-22T06:20:17.952Z"
+    },
+    {
+      "id": "prod-oxidised-silver-band",
+      "name": "Oxidised Silver Band",
+      "category": "rings",
+      "metal": "silver",
+      "price": 799,
+      "image_url": "https://static.prod-images.emergentagent.com/jobs/c0d76ea6-ce25-4ebe-8c53-680e184e132e/images/df27d08dd30dc45c8b6f54125da70d11625c79bdfd1d69bda721c8675235b319.jpeg",
+      "description": "Hand finished oxidised 925 silver band with a hammered texture. Rugged, unisex and built for daily wear.",
+      "images": [],
+      "sweat_proof": true,
+      "daily_wear": true,
+      "anti_tarnish": true,
+      "stock": 25,
+      "is_new": false,
+      "created_at": "2026-09-22T06:10:17.952Z"
+    },
+    {
+      "id": "prod-ciara-gold-bracelet",
+      "name": "Ciara Gold Bracelet",
+      "category": "bracelets",
+      "metal": "gold",
+      "price": 1349,
+      "image_url": "https://static.prod-images.emergentagent.com/jobs/c0d76ea6-ce25-4ebe-8c53-680e184e132e/images/a26110b60697423666f2ad530967a5c2a18afb967d03a382a91b8689cb9aa927.jpeg",
+      "description": "Chunky oval link bracelet in 18k gold plating with an adjustable clasp. Sweat proof, so it never leaves your wrist.",
+      "images": [],
+      "sweat_proof": true,
+      "daily_wear": true,
+      "anti_tarnish": true,
+      "stock": 25,
+      "is_new": true,
+      "created_at": "2026-09-22T06:00:17.952Z"
+    },
+    {
+      "id": "prod-serene-silver-cuff",
+      "name": "Serene Silver Cuff",
+      "category": "bracelets",
+      "metal": "silver",
+      "price": 1699,
+      "image_url": "https://static.prod-images.emergentagent.com/jobs/c0d76ea6-ce25-4ebe-8c53-680e184e132e/images/189ef64dccab614987bf916ba3045e2f5e59a21e3a33b6ed258faaf2d8fb2a42.jpeg",
+      "description": "A smooth, solid 925 silver open cuff. Slips on easily and holds its polish with the anti-tarnish coating.",
+      "images": [],
+      "sweat_proof": true,
+      "daily_wear": true,
+      "anti_tarnish": true,
+      "stock": 25,
+      "is_new": false,
+      "created_at": "2026-09-22T05:50:17.952Z"
+    }
+  ],
+  "orders": [],
+  "wishlists": [],
+  "feedback": [],
+  "password_resets": []
+}
