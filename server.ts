@@ -1050,6 +1050,98 @@ async function startServer() {
     res.json(order);
   });
 
+  // Create Razorpay order (for real checkout popup)
+  app.post("/api/payments/razorpay/create-order", requireAuth, async (req: Request, res: Response) => {
+    const keyId = process.env.RAZORPAY_KEY_ID;
+    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+    const { orderId } = req.body || {};
+
+    const user = (req as any).user as User;
+    const order = db.orders.find((o) => o.id === orderId && o.user_id === user.id);
+    if (!order) {
+      res.status(404).json({ detail: "Order not found" });
+      return;
+    }
+
+    if (!keyId || !keySecret) {
+      res.json({
+        id: `order_demo_${order.id}`,
+        amount: Math.round(order.total * 100),
+        currency: "INR",
+        demo_mode: true,
+      });
+      return;
+    }
+
+    try {
+      const authHeader = "Basic " + Buffer.from(`${keyId}:${keySecret}`).toString("base64");
+      const resp = await fetch("https://api.razorpay.com/v1/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authHeader,
+        },
+        body: JSON.stringify({
+          amount: Math.round(order.total * 100),
+          currency: "INR",
+          receipt: order.order_number,
+          notes: {
+            order_id: order.id,
+            user_id: user.id,
+          },
+        }),
+      });
+
+      if (!resp.ok) {
+        const errorText = await resp.text();
+        console.error("[Razorpay] Create order failed:", resp.status, errorText);
+        res.status(502).json({ detail: "Failed to create Razorpay order" });
+        return;
+      }
+
+      const rzOrder = await resp.json();
+      res.json({
+        ...rzOrder,
+        demo_mode: false,
+      });
+    } catch (err: any) {
+      console.error("[Razorpay] API error:", err);
+      res.status(500).json({ detail: err.message || "Failed to initialize Razorpay payment" });
+    }
+  });
+
+  // Verify Razorpay payment signature
+  app.post("/api/payments/razorpay/verify", requireAuth, (req: Request, res: Response) => {
+    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+    const { orderId, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body || {};
+
+    const user = (req as any).user as User;
+    const order = db.orders.find((o) => o.id === orderId && o.user_id === user.id);
+    if (!order) {
+      res.status(404).json({ detail: "Order not found" });
+      return;
+    }
+
+    if (keySecret && razorpay_order_id && razorpay_payment_id && razorpay_signature) {
+      const generatedSignature = crypto
+        .createHmac("sha256", keySecret)
+        .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+        .digest("hex");
+
+      if (generatedSignature !== razorpay_signature) {
+        res.status(400).json({ detail: "Invalid Razorpay payment signature" });
+        return;
+      }
+    }
+
+    order.payment_status = "paid";
+    order.payment_method = keySecret ? "razorpay" : "razorpay_demo";
+    saveOrderToMongo(order);
+    saveDb();
+    sendOrderConfirmationEmail(order).catch((e) => console.warn(e));
+    res.json(order);
+  });
+
   // User's own orders
   app.get("/api/orders/mine", requireAuth, (req: Request, res: Response) => {
     const user = (req as any).user as User;

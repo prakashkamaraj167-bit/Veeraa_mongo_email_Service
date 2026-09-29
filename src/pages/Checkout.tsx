@@ -45,6 +45,65 @@ export default function Checkout() {
   const mutation = useMutation({
     mutationFn: async () => {
       const order = await apiPost<Order>("/orders", { items, shipping: form });
+
+      // If Razorpay live key is configured, open Razorpay Checkout modal
+      if (config && !config.demo_mode && config.key_id) {
+        const isLoaded = await new Promise<boolean>((resolve) => {
+          if ((window as any).Razorpay) return resolve(true);
+          const script = document.createElement("script");
+          script.src = "https://checkout.razorpay.com/v1/checkout.js";
+          script.onload = () => resolve(true);
+          script.onerror = () => resolve(false);
+          document.body.appendChild(script);
+        });
+
+        if (!isLoaded) {
+          throw new Error("Unable to load Razorpay payment SDK");
+        }
+
+        const rzOrder = await apiPost<{ id: string; amount: number; currency: string; demo_mode?: boolean }>(
+          "/payments/razorpay/create-order",
+          { orderId: order.id }
+        );
+
+        return new Promise<Order>((resolve, reject) => {
+          const rzp = new (window as any).Razorpay({
+            key: config.key_id,
+            amount: rzOrder.amount,
+            currency: rzOrder.currency || "INR",
+            name: "Veeraa Jewellery",
+            description: `Order #${order.order_number}`,
+            order_id: rzOrder.id,
+            prefill: {
+              name: form.full_name,
+              email: user?.email,
+              contact: form.phone,
+            },
+            theme: {
+              color: "#92400e",
+            },
+            handler: async (resp: any) => {
+              try {
+                const confirmed = await apiPost<Order>("/payments/razorpay/verify", {
+                  orderId: order.id,
+                  razorpay_order_id: resp.razorpay_order_id,
+                  razorpay_payment_id: resp.razorpay_payment_id,
+                  razorpay_signature: resp.razorpay_signature,
+                });
+                resolve(confirmed);
+              } catch (e) {
+                reject(e);
+              }
+            },
+            modal: {
+              ondismiss: () => reject(new Error("PAYMENT_CANCELLED")),
+            },
+          });
+          rzp.open();
+        });
+      }
+
+      // Demo mode: complete immediately
       return await apiPost<Order>(`/orders/${order.id}/pay`);
     },
     onSuccess: (order) => {
@@ -52,7 +111,13 @@ export default function Checkout() {
       setPlaced(order);
       toast.success("Payment successful — order confirmed!");
     },
-    onError: () => toast.error("Could not place the order. Please try again."),
+    onError: (err: any) => {
+      if (err?.message === "PAYMENT_CANCELLED") {
+        toast.info("Payment window was closed.");
+      } else {
+        toast.error("Could not complete the order. Please try again.");
+      }
+    },
   });
 
   if (placed) {
